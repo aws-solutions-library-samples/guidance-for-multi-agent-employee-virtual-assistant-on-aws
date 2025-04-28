@@ -1,0 +1,3 @@
+RulesToSuppress:
+  - id: W58
+    reason: Lambda functions have CloudWatch Logs permissions through their execution role

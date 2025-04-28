@@ -1,27 +1,21 @@
-### vsCode ###
-.vscode
+### Python ###
 
-### macOS ###
-# General
 .DS_Store
-.AppleDouble
-.LSOverride
-# Files that might appear in the root of a volume
-.DocumentRevisions-V100
-.fseventsd
-.Spotlight-V100
-.TemporaryItems
-.Trashes
-.VolumeIcon.icns
-.com.apple.timemachine.donotpresent
 
-**/node_modules
-**/dist
-**/build
-**/.DS_Store
-**/.angular
-**/.idea
-cdk.out
-**/data/**.csv
+### Lambda packages
+employee_virtual_assistant_cdk/layer/
 
-.env
+### CDK out files
+employee_virtual_assistant_cdk/cdk.out*/
+employee_virtual_assistant_cdk/cdk-outputs.json
+employee_virtual_assistant_cdk/employee_assistant_cdk/__pycache__/
+
+### env files
+employee_virtual_assistant_cdk/.env
+employee_virtual_assistant_react/.env
+
+### React build files
+employee_virtual_assistant_react/build/
+
+### React node modules
+employee_virtual_assistant_react/node_modules/

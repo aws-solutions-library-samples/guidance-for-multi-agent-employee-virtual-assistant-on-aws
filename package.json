@@ -1,0 +1,15 @@
+{
+  "name": "employee_virtual_assistant_project",
+  "version": "1.0.0",
+  "description": "A sophisticated AI-powered assistant that helps employees find information about HR policies, benefits, payroll, IT support, and training resources. Built with Amazon Bedrock for intelligent responses and document understanding.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@ssh.gitlab.aws.dev:wwso-gtm-specialists-dev/genai-experiments/Employee_Virtual_Assistant_Project.git"
+  },
+  "author": "",
+  "license": "ISC"
+}

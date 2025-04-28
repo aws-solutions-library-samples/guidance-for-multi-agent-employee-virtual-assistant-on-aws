@@ -1,215 +1,228 @@
-# Guidance Title (required)
+# Employee Virtual Assistant on AWS
 
-The Guidance title should be consistent with the title established first in Alchemy.
+## Table of Contents
 
-**Example:** *Guidance for Product Substitutions on AWS*
-
-This title correlates exactly to the Guidance it’s linked to, including its corresponding sample code repository. 
-
-
-## Table of Contents (required)
-
-List the top-level sections of the README template, along with a hyperlink to the specific section.
-
-### Required
-
-1. [Overview](#overview-required)
+1. [Overview](#overview)
     - [Cost](#cost)
-2. [Prerequisites](#prerequisites-required)
-    - [Operating System](#operating-system-required)
-3. [Deployment Steps](#deployment-steps-required)
-4. [Deployment Validation](#deployment-validation-required)
-5. [Running the Guidance](#running-the-guidance-required)
-6. [Next Steps](#next-steps-required)
-7. [Cleanup](#cleanup-required)
+2. [Prerequisites](#prerequisites)
+    - [Operating System](#operating-system)
+    - [AWS Account Requirements](#aws-account-requirements)
+    - [AWS CDK Bootstrap](#aws-cdk-bootstrap)
+3. [Deployment Steps](#deployment-steps)
+4. [Deployment Validation](#deployment-validation)
+5. [Running the Guidance](#running-the-guidance)
+6. [Next Steps](#next-steps)
+7. [Cleanup](#cleanup)
 
-***Optional***
+## Overview
 
-8. [FAQ, known issues, additional considerations, and limitations](#faq-known-issues-additional-considerations-and-limitations-optional)
-9. [Revisions](#revisions-optional)
-10. [Notices](#notices-optional)
-11. [Authors](#authors-optional)
+The Employee Virtual Assistant is a sophisticated AI-powered assistant that helps employees find information about HR policies, benefits, payroll, IT support, and training resources. Built with Amazon Bedrock for intelligent responses and document understanding, this solution addresses the common challenge organizations face in providing employees with quick, accurate information across multiple domains.
 
-## Overview (required)
+![Employee Virtual Assistant](TeamLink.gif)
 
-1. Provide a brief overview explaining the what, why, or how of your Guidance. You can answer any one of the following to help you write this:
+This solution implements a serverless architecture using several AWS services:
 
-    - **Why did you build this Guidance?**
-    - **What problem does this Guidance solve?**
+- **Frontend**: React single-page application hosted on CloudFront
+- **Backend**: AWS Lambda functions deployed via CDK
+- **AI**: Amazon Bedrock
+- **Authentication**: Amazon Cognito
+- **Storage**: Amazon S3
+- **Knowledge Base**: Amazon Bedrock Knowledge Bases
+- **API Layer**: Amazon API Gateway
+- **Content Delivery**: Amazon CloudFront
 
-2. Include the architecture diagram image, as well as the steps explaining the high-level overview and flow of the architecture. 
-    - To add a screenshot, create an ‘assets/images’ folder in your repository and upload your screenshot to it. Then, using the relative file path, add it to your README. 
+### Architecture
 
-### Cost ( required )
+![Architecture](Architecture.png)
 
-This section is for a high-level cost estimate. Think of a likely straightforward scenario with reasonable assumptions based on the problem the Guidance is trying to solve. Provide an in-depth cost breakdown table in this section below ( you should use AWS Pricing Calculator to generate cost breakdown ).
+### Cost
 
-Start this section with the following boilerplate text:
+You are responsible for the cost of the AWS services used while running this Guidance. The cost for running this Guidance with the default settings in the US East (N. Virginia) Region is approximately $1000.00 per month for processing 1,000 user interactions per day.
 
-_You are responsible for the cost of the AWS services used while running this Guidance. As of <month> <year>, the cost for running this Guidance with the default settings in the <Default AWS Region (Most likely will be US East (N. Virginia)) > is approximately $<n.nn> per month for processing ( <nnnnn> records )._
+We recommend creating a [Budget](https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html) through [AWS Cost Explorer](https://aws.amazon.com/aws-cost-management/aws-cost-explorer/) to help manage costs. Prices are subject to change. For full details, refer to the pricing webpage for each AWS service used in this Guidance.
 
-Replace this amount with the approximate cost for running your Guidance in the default Region. This estimate should be per month and for processing/serving resonable number of requests/entities.
-
-Suggest you keep this boilerplate text:
-_We recommend creating a [Budget](https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html) through [AWS Cost Explorer](https://aws.amazon.com/aws-cost-management/aws-cost-explorer/) to help manage costs. Prices are subject to change. For full details, refer to the pricing webpage for each AWS service used in this Guidance._
-
-### Sample Cost Table ( required )
-
-**Note : Once you have created a sample cost table using AWS Pricing Calculator, copy the cost breakdown to below table and upload a PDF of the cost estimation on BuilderSpace. Do not add the link to the pricing calculator in the ReadMe.**
+#### Sample Cost Table
 
 The following table provides a sample cost breakdown for deploying this Guidance with the default parameters in the US East (N. Virginia) Region for one month.
 
-| AWS service  | Dimensions | Cost [USD] |
+| AWS service | Dimensions | Cost [USD] |
 | ----------- | ------------ | ------------ |
-| Amazon API Gateway | 1,000,000 REST API calls per month  | $ 3.50month |
-| Amazon Cognito | 1,000 active users per month without advanced security feature | $ 0.00 |
+| Amazon API Gateway | 1,000,000 REST API calls per month | $3.50/month |
+| Amazon Cognito | 1,000 active users per month without advanced security feature | $0.00/month |
+| AWS Lambda | 2,000,000 requests/month, 1GB memory, 500ms average duration | $10.40/month |
+| Amazon S3 | 5 GB storage, 50,000 GET requests | $0.12/month |
+| Amazon CloudFront | 50 GB data transfer, 1,000,000 requests | $4.50/month |
+| Amazon Bedrock | Claude Sonnet model: 1,000,000 input tokens, 1,000,000 output tokens | $18.00/month |
+| Amazon DynamoDB | 5 GB storage, 5 million read requests, 1 million write requests | $2.55/month |
+| Amazon OpenSearch Serverless |  | Approx $1,000/month |
+| AWS CloudFormation | Free for AWS Resources | $0.00/month |
+
+## Prerequisites
+
+### Operating System
+
+These deployment instructions are optimized to work best on macOS, Linux, or Windows with WSL (Windows Subsystem for Linux). Deployment in another OS may require additional steps.
+
+Required software:
+- Git
+- Python 3.9+ and pip
+- Node.js v14+ and npm
+- AWS CLI configured
+
+### AWS Account Requirements
+
+- An AWS Account with appropriate permissions
+- Amazon Bedrock access enabled in your AWS account
+- Tavily API key (optional - for web search functionality)
+
+### AWS CDK Bootstrap
+
+This Guidance uses AWS CDK. If you are using AWS CDK for the first time, please perform the below bootstrapping:
+
+```bash
+# Install AWS CDK globally
+npm install -g aws-cdk
+
+# Bootstrap your AWS environment for CDK
+cdk bootstrap aws://ACCOUNT-NUMBER/REGION
+```
+
+Replace `ACCOUNT-NUMBER` with your AWS account ID and `REGION` with your preferred AWS region.
+
+## Deployment Steps
+
+1. Clone the repository:
+   ```bash
+   git clone Employee_Virtual_Assistant_Project.git <URL for the repo name>
+   cd Employee_Virtual_Assistant_Project
+   ```
 
-## Prerequisites (required)
+2. Create and activate a Python virtual environment:
+   ```bash
+   python -m venv .venv
+   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+   ```
 
-### Operating System (required)
+3. Install CDK project dependencies:
+   ```bash
+   cd employee_virtual_assistant_cdk
+   pip install -r requirements.txt
+   ```
 
-- Talk about the base Operating System (OS) and environment that can be used to run or deploy this Guidance, such as *Mac, Linux, or Windows*. Include all installable packages or modules required for the deployment. 
-- By default, assume Amazon Linux 2/Amazon Linux 2023 AMI as the base environment. All packages that are not available by default in AMI must be listed out.  Include the specific version number of the package or module.
+4. Create the Lambda dependencies layer:
+   ```bash
+   mkdir -p layer/python
+   pip install requests requests-aws4auth opensearch-py -t layer/python
+   ```
 
-**Example:**
-“These deployment instructions are optimized to best work on **<Amazon Linux 2 AMI>**.  Deployment in another OS may require additional steps.”
+5. Deploy the backend infrastructure:
+   
+   With Tavily API key (recommended for search functionality):
+   ```bash
+   python deploy.py --tavily-api-key YOUR_TAVILY_API_KEY
+   ```
 
-- Include install commands for packages, if applicable.
+   Or deploy without Tavily:
+   ```bash
+   python deploy.py
+   ```
 
+6. Note the CloudFront URL from the deployment output. This is the access URL for your application.
 
-### Third-party tools (If applicable)
+## Deployment Validation
 
-*List any installable third-party tools required for deployment.*
+1. Open the AWS CloudFormation console and verify the status of the stack named "EmployeeAssistantStack" shows "CREATE_COMPLETE".
 
+2. Verify the following resources have been created:
+   - Amazon S3 bucket for frontend hosting
+   - CloudFront distribution
+   - Cognito User Pool
+   - Lambda functions
+   - API Gateway endpoints
+   - Amazon Bedrock Knowledge Bases
 
-### AWS account requirements (If applicable)
+3. Use the following command to verify the CloudFront distribution status:
+   ```bash
+   aws cloudfront list-distributions --query "DistributionList.Items[?Comment=='Employee Virtual Assistant Frontend'].DomainName" --output text
+   ```
 
-*List out pre-requisites required on the AWS account if applicable, this includes enabling AWS regions, requiring ACM certificate.*
+## Running the Guidance
 
-**Example:** “This deployment requires you have public ACM certificate available in your AWS account”
+1. Access the application through the CloudFront URL provided at the end of the deployment:
+   ```
+   🎉 Deployment complete! Your website is available at:
+   https://<your_cloudfront>.cloudfront.net
+   ```
 
-**Example resources:**
-- ACM certificate 
-- DNS record
-- S3 bucket
-- VPC
-- IAM role with specific permissions
-- Enabling a Region or service etc.
+2. Sign up for an account:
+   - Click "Sign Up" and enter your email and password
+   - Verify your email using the verification code sent to your inbox
+   - Sign in with your credentials
 
+3. Document upload:
+   - Click the "Upload" button
+   - Select a document to upload to the knowledge base
+   - Once processed, the AI can use this document to answer future questions
 
-### aws cdk bootstrap (if sample code has aws-cdk)
+4. Use the chat interface based on the uploaded documents:
+   - Type your question about HR policies, benefits, payroll, IT support, or training in the text input area
+   - Press Enter or click the send button
+   - The AI will respond with relevant information from the knowledge base
 
-<If using aws-cdk, include steps for account bootstrap for new cdk users.>
+Example questions you can ask:
+- "What is our company's parental leave policy?"
+- "How do I request time off?"
+- "Where can I find information about our health benefits?"
+- "How do I reset my work email password?"
+- "What training courses are available for my role?"
 
-**Example blurb:** “This Guidance uses aws-cdk. If you are using aws-cdk for first time, please perform the below bootstrapping....”
+## Next Steps
 
-### Service limits  (if applicable)
+After deploying the Employee Virtual Assistant, consider these enhancements:
 
-<Talk about any critical service limits that affect the regular functioning of the Guidance. If the Guidance requires service limit increase, include the service name, limit name and link to the service quotas page.>
+1. **Expand the Knowledge Base**: Add company-specific documents to make the assistant more valuable:
+   - HR policy documents
+   - Employee handbooks
+   - IT support guides
+   - Training materials
 
-### Supported Regions (if applicable)
+2. **Customize the UI**: Modify the frontend to match your company branding by editing the React components.
 
-<If the Guidance is built for specific AWS Regions, or if the services used in the Guidance do not support all Regions, please specify the Region this Guidance is best suited for>
+3. **Add User Personalization**: Enhance the application to provide personalized responses based on employee role, department, or location.
 
+4. **Integrate with Existing Systems**: Connect the assistant to your HRIS, ticketing system, or other internal tools.
 
-## Deployment Steps (required)
+5. **Implement Analytics**: Add tracking to understand common questions and improve the assistant's responses over time.
 
-Deployment steps must be numbered, comprehensive, and usable to customers at any level of AWS expertise. The steps must include the precise commands to run, and describe the action it performs.
+## Cleanup
 
-* All steps must be numbered.
-* If the step requires manual actions from the AWS console, include a screenshot if possible.
-* The steps must start with the following command to clone the repo. ```git clone xxxxxxx```
-* If applicable, provide instructions to create the Python virtual environment, and installing the packages using ```requirement.txt```.
-* If applicable, provide instructions to capture the deployed resource ARN or ID using the CLI command (recommended), or console action.
+To remove all resources created by this Guidance, follow these steps:
 
- 
-**Example:**
+1. Empty the S3 buckets created by the stack:
+   ```bash
+   # Find bucket names
+   aws s3 ls | grep employee-assistant
 
-1. Clone the repo using command ```git clone xxxxxxxxxx```
-2. cd to the repo folder ```cd <repo-name>```
-3. Install packages in requirements using command ```pip install requirement.txt```
-4. Edit content of **file-name** and replace **s3-bucket** with the bucket name in your account.
-5. Run this command to deploy the stack ```cdk deploy``` 
-6. Capture the domain name created by running this CLI command ```aws apigateway ............```
+   # Empty each bucket (replace BUCKET_NAME with actual bucket name)
+   aws s3 rm s3://BUCKET_NAME --recursive
+   ```
 
+2. Delete the CloudFormation stack:
+   ```bash
+   cd employee_virtual_assistant_cdk
+   cdk destroy
+   ```
 
+3. If prompted, confirm the deletion by entering 'y'.
 
-## Deployment Validation  (required)
+4. Verify all resources have been deleted by checking the CloudFormation console.
 
-<Provide steps to validate a successful deployment, such as terminal output, verifying that the resource is created, status of the CloudFormation template, etc.>
+## Considerations
 
+The codebase does not address these code scan findings since this code is NOT INTENDED for Production usage. The codebase has been created with the sole intention of demonstrating multi-agent architectural patterns with the assumption that the end-user will harden the codebase to meet the security considerations as required.
 
-**Examples:**
-
-* Open CloudFormation console and verify the status of the template with the name starting with xxxxxx.
-* If deployment is successful, you should see an active database instance with the name starting with <xxxxx> in        the RDS console.
-*  Run the following CLI command to validate the deployment: ```aws cloudformation describe xxxxxxxxxxxxx```
-
-
-
-## Running the Guidance (required)
-
-<Provide instructions to run the Guidance with the sample data or input provided, and interpret the output received.> 
-
-This section should include:
-
-* Guidance inputs
-* Commands to run
-* Expected output (provide screenshot if possible)
-* Output description
-
-
-
-## Next Steps (required)
-
-Provide suggestions and recommendations about how customers can modify the parameters and the components of the Guidance to further enhance it according to their requirements.
-
-
-## Cleanup (required)
-
-- Include detailed instructions, commands, and console actions to delete the deployed Guidance.
-- If the Guidance requires manual deletion of resources, such as the content of an S3 bucket, please specify.
-
-
-
-## FAQ, known issues, additional considerations, and limitations (optional)
-
-
-**Known issues (optional)**
-
-<If there are common known issues, or errors that can occur during the Guidance deployment, describe the issue and resolution steps here>
-
-
-**Additional considerations (if applicable)**
-
-<Include considerations the customer must know while using the Guidance, such as anti-patterns, or billing considerations.>
-
-**Examples:**
-
-- “This Guidance creates a public AWS bucket required for the use-case.”
-- “This Guidance created an Amazon SageMaker notebook that is billed per hour irrespective of usage.”
-- “This Guidance creates unauthenticated public API endpoints.”
-
-
-Provide a link to the *GitHub issues page* for users to provide feedback.
-
-
-**Example:** *“For any feedback, questions, or suggestions, please use the issues tab under this repo.”*
-
-## Revisions (optional)
-
-Document all notable changes to this project.
-
-Consider formatting this section based on Keep a Changelog, and adhering to Semantic Versioning.
-
-## Notices (optional)
-
-Include a legal disclaimer
-
-**Example:**
-*Customers are responsible for making their own independent assessment of the information in this Guidance. This Guidance: (a) is for informational purposes only, (b) represents AWS current product offerings and practices, which are subject to change without notice, and (c) does not create any commitments or assurances from AWS and its affiliates, suppliers or licensors. AWS products or services are provided “as is” without warranties, representations, or conditions of any kind, whether express or implied. AWS responsibilities and liabilities to its customers are controlled by AWS agreements, and this Guidance is not part of, nor does it modify, any agreement between AWS and its customers.*
-
-
-## Authors (optional)
-
-Name of code contributors
+| Code Scan | Cause | Explanation |
+| --- | --- | --- |
+| grype | Inefficient Regular Expression Complexity in nth-check | The nth-check package is a transitive dependency, and not directly referred in the application. |
+| semgrep | Arbitrary-sleep Message: time.sleep() | time.sleep() is intentionally used to control the timing of retries and prevent rate limiting issues when interacting with boto3 APIs |
+| semgrep | Detected subprocess function 'run' without a static string. | The subprocess call uses a fixed list of arguments with shell=False, which prevents shell injection. All variables used (stack_name, tavily_api_key, region, cdk_out_dir) are application-controlled and sanitized. Therefore, this usage is safe and not vulnerable to command injection |
