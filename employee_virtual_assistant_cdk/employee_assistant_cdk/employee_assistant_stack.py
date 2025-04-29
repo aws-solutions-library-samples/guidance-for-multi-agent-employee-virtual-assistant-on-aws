@@ -29,6 +29,10 @@ class EmployeeAssistantStack(Stack):
             uuid_value: Unique ID for resource naming
             tavily_api_key: API key for Tavily search service
         """
+
+        # Add a description with the solution ID
+        kwargs["description"] = "Solution ID: SO9023"
+
         super().__init__(scope, construct_id, **kwargs)
 
         # Use the last 5 characters of the UUID for resource naming
